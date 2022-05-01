@@ -65,7 +65,7 @@ public class MyResource {
     @Consumes(MediaType.APPLICATION_JSON)
     public OperationResponse deposit(CreditWrapper credit) {
     	try {
-    		return clientService.setCredit(credit.getIdClient(),credit.getAccount(),credit.getMontant());
+    		return clientService.setCredit(credit.getIdClient(),credit.getnumeroAccount(),credit.getMontant());
     	}
     	catch(Exception exception) {
     		exception.printStackTrace();

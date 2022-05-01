@@ -1,8 +1,7 @@
 package sg.server.service;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.UUID;
+import java.util.concurrent.ThreadLocalRandom;
 
 import sg.server.dataBase.DataBase;
 import sg.server.model.Client;
@@ -13,11 +12,19 @@ import sg.server.wrapper.OperationResponse;
 public class ClientService {
 	DataBase database = DataBase.getDataBase();
 
+	/**
+	 * 
+	 * @return
+	 */
 	public static ClientService getService() {
 		return new ClientService();
 	}
 
-	
+	/**
+	 * 
+	 * @param id
+	 * @return
+	 */
 	public Client getUser(UUID id) {
 		for(Client client:database.listDesClients) {
 			if(client.getId().equals(id)) {
@@ -43,12 +50,12 @@ public class ClientService {
 		if(!database.listDesClients.contains(newClient)) {
 			database.listDesClients.add(newClient);
 			
-			StandardAccount account = new StandardAccount(newClient,new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()));
+			StandardAccount account = new StandardAccount(newClient,Math.abs(ThreadLocalRandom.current().nextInt()));
 			database.listAccount.add(account);
 			
 			OperationResponse response = new OperationResponse(newClient.getId(),
 																newClient.getFirstName(),
-																Integer.toString(account.getNumeroAccount()),
+																account.getNumeroAccount(),
 																TypeOperation.CREATION,
 																0.0,0.0);
 			
@@ -57,14 +64,14 @@ public class ClientService {
 		else {
 			for (Client client:database.listDesClients) {
 				if(client.equals(newClient)) {
-					database.listAccount.add(new StandardAccount(client,new SimpleDateFormat("yyyyMMddHHmmss").format(new Date())));
 					
-					StandardAccount account = new StandardAccount(client,new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()));
+					//A changer les informations du compte sont a chercher
+					StandardAccount account = new StandardAccount(client,ThreadLocalRandom.current().nextInt());
 					database.listAccount.add(account);
 					
 					OperationResponse response = new OperationResponse(client.getId(),
 																		client.getFirstName(),
-																		Integer.toString(account.getNumeroAccount()),
+																		account.getNumeroAccount(),
 																		TypeOperation.CREATION,
 																		0.0,0.0);
 					return response;
@@ -82,8 +89,21 @@ public class ClientService {
 	 * @param montant
 	 * @return
 	 */
-	public OperationResponse setCredit(UUID idClient, String numeroAccount,Double montant) {
-		// TODO Auto-generated method stub
+	public OperationResponse setCredit(UUID idClient, int numeroAccount,Double montant) {
+		StandardAccount compte =null;
+		for(StandardAccount account : database.listAccount) {
+			if(account.getClient().getId().equals(idClient) & account.getNumeroAccount() == numeroAccount) {
+				account.credit(montant);
+				compte=account;
+			}
+		}
+		if(compte != null) {
+			return new OperationResponse(compte.getClient().getId(),
+										compte.getClient().getFirstName(),
+										compte.getNumeroAccount(),
+										TypeOperation.CREDIT,
+										montant,compte.getSolde());
+		}
 		return null;
 	}
 

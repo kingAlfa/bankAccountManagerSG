@@ -2,11 +2,17 @@ package sg.server.wrapper;
 
 import java.util.UUID;
 
+/**
+ * 
+ * @author alpha
+ *
+ */
 public class CreditWrapper {
 	private UUID idClient;
 	private Double montant;
-	private String numeroAccount;
+	private int numeroAccount;
 	
+	public CreditWrapper() {}
 	
 	public UUID getIdClient() {
 		return idClient;
@@ -20,10 +26,10 @@ public class CreditWrapper {
 	public void setMontant(Double montant) {
 		this.montant = montant;
 	}
-	public String getAccount() {
+	public int getnumeroAccount() {
 		return numeroAccount;
 	}
-	public void setAccount(String numeroAccount) {
+	public void setnumeroAccount(int numeroAccount) {
 		 this.numeroAccount=numeroAccount;
 	}
 	

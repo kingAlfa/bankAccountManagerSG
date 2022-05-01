@@ -12,7 +12,7 @@ import sg.server.type.TypeOperation;
 public class OperationResponse {
 	private String nom;
 	private UUID identifiant;
-	private String account;
+	private int account;
 	private TypeOperation operation;
 	private Double montant;
 	private Double solde;
@@ -23,7 +23,7 @@ public class OperationResponse {
 	 * @param montant
 	 * @param solde
 	 */
-	public OperationResponse(UUID id,String nom, String account,TypeOperation operation, Double montant, Double solde) {
+	public OperationResponse(UUID id,String nom, int account,TypeOperation operation, Double montant, Double solde) {
 		super();
 		this.identifiant=id;
 		this.nom = nom;
@@ -46,10 +46,10 @@ public class OperationResponse {
 	public void setIdentifiant(UUID identifiant) {
 		this.identifiant = identifiant;
 	}
-	public String getAccount() {
+	public int getAccount() {
 		return account;
 	}
-	public void setAccount(String account) {
+	public void setAccount(int account) {
 		this.account = account;
 	}
 	public TypeOperation getOperation() {

@@ -12,11 +12,11 @@ import sg.server.type.TypeOperation;
 
 public class StandardAccount implements BankInterface {
 	private Client client;
-	private String numeroAccount;
+	private int numeroAccount;
 	private Double solde;
 	private List<Operations> operations;
 	
-	public StandardAccount(Client client,String numero) {
+	public StandardAccount(Client client,int numero) {
 		this.client=client;
 		this.numeroAccount=numero;
 		this.solde=0.0;
@@ -53,26 +53,22 @@ public class StandardAccount implements BankInterface {
 
 	@Override
 	public Double getSolde() {
-		// TODO Auto-generated method stub
-		return null;
+		return solde;
 	}
 
 	@Override
 	public List<Operations> getOperations() {
-		// TODO Auto-generated method stub
-		return null;
+		return operations;
 	}
 
 	@Override
 	public Client getClient() {
-		// TODO Auto-generated method stub
-		return null;
+		return client;
 	}
 
 	@Override
 	public int getNumeroAccount() {
-		// TODO Auto-generated method stub
-		return 0;
+		return numeroAccount;
 	}
 
 }
