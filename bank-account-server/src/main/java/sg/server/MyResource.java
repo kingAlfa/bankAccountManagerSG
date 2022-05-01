@@ -2,6 +2,8 @@
 package sg.server;
 
 import java.beans.Expression;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import javax.ws.rs.Consumes;
@@ -14,6 +16,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import sg.server.model.Client;
+import sg.server.model.Operations;
 import sg.server.service.ClientService;
 import sg.server.wrapper.CreditWrapper;
 import sg.server.wrapper.OperationResponse;
@@ -84,6 +87,18 @@ public class MyResource {
     	catch(Exception exception) {
     		exception.printStackTrace();
     		return null;
+    	}
+    }
+    
+    @GET
+    @Path("/client/history/{id}")
+    @Produces("application/json")
+    public List<Operations> history(@PathParam("id") UUID id){
+    	try {
+    		return clientService.getOperations(id);
+    	}catch(Exception exception) {
+    		exception.printStackTrace();
+    		return new ArrayList<Operations>();
     	}
     }
     

@@ -1,10 +1,13 @@
 package sg.server.service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
 
 import sg.server.dataBase.DataBase;
 import sg.server.model.Client;
+import sg.server.model.Operations;
 import sg.server.model.StandardAccount;
 import sg.server.type.TypeOperation;
 import sg.server.wrapper.OperationResponse;
@@ -38,7 +41,7 @@ public class ClientService {
 	 * 
 	 * @param firstName
 	 * @param lastName
-	 * @return
+	 * @return 
 	 */
 	public OperationResponse createClient(String firstName, String lastName) {
 		
@@ -123,6 +126,15 @@ public class ClientService {
 										montant,compte.getSolde());
 		}
 		return null;
+	}
+
+	public List<Operations> getOperations(UUID id) {
+		for(StandardAccount account :database.listAccount) {
+			if(account.getClient().getId().equals(id)) {
+				return account.getOperations();
+			}
+		}
+		return new ArrayList<Operations>();
 	}
 
 }
