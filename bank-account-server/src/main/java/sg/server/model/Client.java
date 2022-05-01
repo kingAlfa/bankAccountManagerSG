@@ -2,6 +2,11 @@ package sg.server.model;
 
 import java.util.UUID;
 
+/**
+ * Le client est representé par son prenom et son nom. Son identifiant lui est automatiquement attribué
+ * @author alpha
+ *
+ */
 public class Client {
 	private String firstName;
 	private String lastName;

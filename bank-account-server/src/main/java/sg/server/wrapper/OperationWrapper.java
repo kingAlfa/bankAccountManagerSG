@@ -3,16 +3,16 @@ package sg.server.wrapper;
 import java.util.UUID;
 
 /**
- * 
+ * Operation Wrapper permet de surclasser les paramettres des requêtes 
  * @author alpha
  *
  */
-public class CreditWrapper {
+public class OperationWrapper {
 	private UUID idClient;
 	private Double montant;
 	private int numeroAccount;
 	
-	public CreditWrapper() {}
+	public OperationWrapper() {}
 	
 	public UUID getIdClient() {
 		return idClient;

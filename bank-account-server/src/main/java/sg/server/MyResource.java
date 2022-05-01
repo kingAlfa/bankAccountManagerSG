@@ -1,7 +1,6 @@
 
 package sg.server;
 
-import java.beans.Expression;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -18,24 +17,28 @@ import javax.ws.rs.core.MediaType;
 import sg.server.model.Client;
 import sg.server.model.Operations;
 import sg.server.service.ClientService;
-import sg.server.wrapper.CreditWrapper;
+import sg.server.wrapper.OperationWrapper;
 import sg.server.wrapper.OperationResponse;
 
-// The Java class will be hosted at the URI path "/helloworld"
+/**
+ * La classe du routing de l'application.
+ * Cette classe expose les differentes requetes que peu recevoir le service.
+ * @author alpha
+ *
+ */
 @Path("/sg")
 public class MyResource {
 	
+	/**
+	 * Le service qui gere les differentes operations d'un client
+	 */
 	ClientService clientService = ClientService.getService();
     
-    // The Java method will process HTTP GET requests
-    @GET 
-    // The Java method will produce content identified by the MIME Media
-    // type "text/plain"
-    @Produces("text/plain")
-    public String getIt() {
-        return "Hi there!";
-    }
-    
+	/**
+	 * 
+	 * @param Client le client qui veut s'enregistrer et créer son compte
+	 * @return OperationResponse le corps d'une operation effectué
+	 */
     @POST
 	@Path("/register")
 	@Produces("application/json")
@@ -50,6 +53,11 @@ public class MyResource {
     	}
     }
     
+    /**
+     * 
+     * @param id l'identifiant du client
+     * @return Client le client dont l'identifiant correspond
+     */
     @GET
     @Path("/client/{id}")
     @Produces("application/json")
@@ -62,11 +70,16 @@ public class MyResource {
     	}
     }
     
+    /**
+     * 
+     * @param credit le montant a deposer
+     * @return OperationResponse 
+     */
     @PUT
     @Path("/client/credit")
     @Produces("application/json")
     @Consumes(MediaType.APPLICATION_JSON)
-    public OperationResponse deposit(CreditWrapper credit) {
+    public OperationResponse deposit(OperationWrapper credit) {
     	try {
     		return clientService.setCredit(credit.getIdClient(),credit.getnumeroAccount(),credit.getMontant());
     	}
@@ -76,13 +89,18 @@ public class MyResource {
     	}
     }
     
+    /**
+     * 
+     * @param debit le montant a retirer
+     * @return OperationResponse
+     */
     @PUT
     @Path("/client/debit")
     @Produces("application/json")
     @Consumes(MediaType.APPLICATION_JSON)
-    public OperationResponse withDraw(CreditWrapper credit) {
+    public OperationResponse withDraw(OperationWrapper debit) {
     	try {
-    		return clientService.setDebit(credit.getIdClient(),credit.getnumeroAccount(),credit.getMontant());
+    		return clientService.setDebit(debit.getIdClient(),debit.getnumeroAccount(),debit.getMontant());
     	}
     	catch(Exception exception) {
     		exception.printStackTrace();
@@ -90,6 +108,11 @@ public class MyResource {
     	}
     }
     
+    /**
+     * 
+     * @param id l'identifiant du client 
+     * @return List<Operations> liste des operations
+     */
     @GET
     @Path("/client/history/{id}")
     @Produces("application/json")

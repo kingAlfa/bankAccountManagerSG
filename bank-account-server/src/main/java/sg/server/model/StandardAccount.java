@@ -2,24 +2,34 @@ package sg.server.model;
 
 import java.text.DateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 
 import sg.server.interfaces.BankInterface;
 import sg.server.type.TypeOperation;
 
 
-
+/**
+ * Le type de compte bancaire par defaut. 
+ * Chaque compte bancaire est caracterié par un client, un numero de compte, un solde et une liste d'operations
+ * @author alpha
+ *
+ */
 public class StandardAccount implements BankInterface {
 	private Client client;
 	private int numeroAccount;
 	private Double solde;
 	private List<Operations> operations;
 	
-	public StandardAccount(Client client,int numero) {
+	/**
+	 * Pour créer un compte bancaire de maniére simple, on fourni le client.
+	 * Le numero du compte , le solde sont alors affectés
+	 * @param client le client
+	 */
+	public StandardAccount(Client client) {
 		this.client=client;
-		this.numeroAccount=numero;
+		this.numeroAccount=Math.abs(ThreadLocalRandom.current().nextInt());
 		this.solde=0.0;
 		this.operations=new ArrayList<Operations>();
 	}
@@ -30,10 +40,10 @@ public class StandardAccount implements BankInterface {
 		setOperation(montant,TypeOperation.CREDIT);
 		return solde;
 	}
-
 	/**
-	 * 
-	 * @param montant
+	 * Initialisation d'une operation bancaire
+	 * @param montant le montant de l'operation
+	 * @param type le type de l'operation
 	 */
 	private void setOperation(Double montant,TypeOperation type) {
 		DateFormat formater = DateFormat.getDateTimeInstance(DateFormat.SHORT,DateFormat.SHORT);

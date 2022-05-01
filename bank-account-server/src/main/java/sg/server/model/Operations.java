@@ -1,9 +1,13 @@
 package sg.server.model;
 
-import java.util.Date;
-
 import sg.server.type.TypeOperation;
 
+/**
+ * Cette classe represente une operation au sein de la banque dont debit ou credit.
+ * Chaque operation est caracterisé par son type d'operation, la date de l'operation, le montant et le solde.
+ * @author alpha
+ *
+ */
 public class Operations {
 	private TypeOperation operation;
 	private String date;

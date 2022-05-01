@@ -13,11 +13,14 @@ import sg.server.type.TypeOperation;
 import sg.server.wrapper.OperationResponse;
 
 public class ClientService {
+	/**
+	 * L'instance de la base de données
+	 */
 	DataBase database = DataBase.getDataBase();
 
 	/**
 	 * 
-	 * @return
+	 * @return ClientService une instance du service client
 	 */
 	public static ClientService getService() {
 		return new ClientService();
@@ -25,8 +28,8 @@ public class ClientService {
 
 	/**
 	 * 
-	 * @param id
-	 * @return
+	 * @param id l'identifiant du client
+	 * @return Client le client dont l'identifiant correspond au paramétre
 	 */
 	public Client getUser(UUID id) {
 		for(Client client:database.listDesClients) {
@@ -38,10 +41,11 @@ public class ClientService {
 	}
 	
 	/**
-	 * 
+	 * Creation d'un client avec son nom et son prénom.
+	 * Son identifiant et son sompte sont directement crée
 	 * @param firstName
 	 * @param lastName
-	 * @return 
+	 * @return  OperationResponse qui est le resultat de l'operation
 	 */
 	public OperationResponse createClient(String firstName, String lastName) {
 		
@@ -53,31 +57,24 @@ public class ClientService {
 		if(!database.listDesClients.contains(newClient)) {
 			database.listDesClients.add(newClient);
 			
-			StandardAccount account = new StandardAccount(newClient,Math.abs(ThreadLocalRandom.current().nextInt()));
+			StandardAccount account = new StandardAccount(newClient);
 			database.listAccount.add(account);
 			
-			OperationResponse response = new OperationResponse(newClient.getId(),
-																newClient.getFirstName(),
-																account.getNumeroAccount(),
-																TypeOperation.CREATION,
-																0.0,0.0);
+			OperationResponse response = new OperationResponse(newClient.getId(),newClient.getFirstName(),account.getNumeroAccount(),TypeOperation.CREATION,0.0,0.0);
 			
 			return response;
 		}
 		else {
 			for (Client client:database.listDesClients) {
 				if(client.equals(newClient)) {
+					for(StandardAccount account:database.listAccount) {
+						if(account.getClient().getId().equals(client.getId())) {
+							
+							OperationResponse response = new OperationResponse(client.getId(),client.getFirstName(),account.getNumeroAccount(),TypeOperation.CREATION,0.0,0.0);
+							return response;
+						}
+					}
 					
-					//A changer les informations du compte sont a chercher
-					StandardAccount account = new StandardAccount(client,ThreadLocalRandom.current().nextInt());
-					database.listAccount.add(account);
-					
-					OperationResponse response = new OperationResponse(client.getId(),
-																		client.getFirstName(),
-																		account.getNumeroAccount(),
-																		TypeOperation.CREATION,
-																		0.0,0.0);
-					return response;
 				}
 			}
 			
@@ -87,10 +84,10 @@ public class ClientService {
 	}
 
 	/**
-	 * 
-	 * @param idClient
-	 * @param montant
-	 * @return
+	 * Operation de depot de credit sur le compte du client
+	 * @param idClient l'identifiant du client 
+	 * @param montant 
+	 * @return OperationResponse
 	 */
 	public OperationResponse setCredit(UUID idClient, int numeroAccount,Double montant) {
 		StandardAccount compte =null;
@@ -101,15 +98,18 @@ public class ClientService {
 			}
 		}
 		if(compte != null) {
-			return new OperationResponse(compte.getClient().getId(),
-										compte.getClient().getFirstName(),
-										compte.getNumeroAccount(),
-										TypeOperation.CREDIT,
-										montant,compte.getSolde());
+			return new OperationResponse(compte.getClient().getId(),compte.getClient().getFirstName(),compte.getNumeroAccount(),TypeOperation.CREDIT,montant,compte.getSolde());
 		}
 		return null;
 	}
 
+	/**
+	 * Operation de retrai sur le compte du client
+	 * @param idClient l'identifiant du client 
+	 * @param numeroAccount le numero du compte
+	 * @param montant
+	 * @return OperationResponse
+	 */
 	public OperationResponse setDebit(UUID idClient, int numeroAccount, Double montant) {
 		StandardAccount compte =null;
 		for(StandardAccount account : database.listAccount) {
@@ -119,14 +119,15 @@ public class ClientService {
 			}
 		}
 		if(compte != null) {
-			return new OperationResponse(compte.getClient().getId(),
-										compte.getClient().getFirstName(),
-										compte.getNumeroAccount(),
-										TypeOperation.DEBIT,
-										montant,compte.getSolde());
+			return new OperationResponse(compte.getClient().getId(),compte.getClient().getFirstName(),compte.getNumeroAccount(),TypeOperation.DEBIT,montant,compte.getSolde());
 		}
 		return null;
 	}
+	/**
+	 * Operation de visualisation de l'historique des differentes operations effectuées
+	 * @param id l'identifiant du client
+	 * @return List<Operations> la liste de toutes les operations
+	 */
 
 	public List<Operations> getOperations(UUID id) {
 		for(StandardAccount account :database.listAccount) {

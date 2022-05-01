@@ -5,7 +5,7 @@ import java.util.UUID;
 import sg.server.type.TypeOperation;
 
 /**
- * 
+ * Operation response permet de surclasser l'objet qui est envoyer comme reponse en appel des requetes.
  * @author alpha
  *
  */
@@ -18,10 +18,10 @@ public class OperationResponse {
 	private Double solde;
 	/**
 	 * 
-	 * @param nom
-	 * @param operation
-	 * @param montant
-	 * @param solde
+	 * @param nom le nom du client
+	 * @param operation le type de l'operation effectué
+	 * @param montant le montant de l'operation
+	 * @param solde la somme total du compte
 	 */
 	public OperationResponse(UUID id,String nom, int account,TypeOperation operation, Double montant, Double solde) {
 		super();
