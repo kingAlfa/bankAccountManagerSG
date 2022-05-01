@@ -107,4 +107,22 @@ public class ClientService {
 		return null;
 	}
 
+	public OperationResponse setDebit(UUID idClient, int numeroAccount, Double montant) {
+		StandardAccount compte =null;
+		for(StandardAccount account : database.listAccount) {
+			if(account.getClient().getId().equals(idClient) & account.getNumeroAccount() == numeroAccount) {
+				account.debit(montant);
+				compte=account;
+			}
+		}
+		if(compte != null) {
+			return new OperationResponse(compte.getClient().getId(),
+										compte.getClient().getFirstName(),
+										compte.getNumeroAccount(),
+										TypeOperation.DEBIT,
+										montant,compte.getSolde());
+		}
+		return null;
+	}
+
 }

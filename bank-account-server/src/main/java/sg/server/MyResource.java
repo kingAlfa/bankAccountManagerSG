@@ -73,4 +73,19 @@ public class MyResource {
     	}
     }
     
+    @PUT
+    @Path("/client/debit")
+    @Produces("application/json")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public OperationResponse withDraw(CreditWrapper credit) {
+    	try {
+    		return clientService.setDebit(credit.getIdClient(),credit.getnumeroAccount(),credit.getMontant());
+    	}
+    	catch(Exception exception) {
+    		exception.printStackTrace();
+    		return null;
+    	}
+    }
+    
+    
 }

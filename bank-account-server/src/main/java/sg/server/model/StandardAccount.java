@@ -26,7 +26,7 @@ public class StandardAccount implements BankInterface {
 	@Override
 	public Double credit(Double montant) {
 		this.solde = this.solde + montant;
-		setOperation(montant);
+		setOperation(montant,TypeOperation.CREDIT);
 		return solde;
 	}
 
@@ -34,12 +34,12 @@ public class StandardAccount implements BankInterface {
 	 * 
 	 * @param montant
 	 */
-	private void setOperation(Double montant) {
+	private void setOperation(Double montant,TypeOperation type) {
 		Date instant = Calendar.getInstance().getTime();
 		Operations operation = new Operations();
 		operation.setDate(instant);
 		operation.setMontant(montant);
-		operation.setOperation(TypeOperation.CREDIT);
+		operation.setOperation(type);
 		operation.setSolde(solde);
 		
 		operations.add(operation);
@@ -47,8 +47,9 @@ public class StandardAccount implements BankInterface {
 
 	@Override
 	public Double debit(Double montant) {
-		// TODO Auto-generated method stub
-		return null;
+		this.solde = this.solde - montant;
+		setOperation(montant,TypeOperation.DEBIT);
+		return solde;
 	}
 
 	@Override
