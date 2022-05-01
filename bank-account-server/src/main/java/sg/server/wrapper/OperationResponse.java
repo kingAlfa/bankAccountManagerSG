@@ -32,5 +32,43 @@ public class OperationResponse {
 		this.montant = montant;
 		this.solde = solde;
 	}
+	public OperationResponse() {}
+	
+	public String getNom() {
+		return nom;
+	}
+	public void setNom(String nom) {
+		this.nom = nom;
+	}
+	public UUID getIdentifiant() {
+		return identifiant;
+	}
+	public void setIdentifiant(UUID identifiant) {
+		this.identifiant = identifiant;
+	}
+	public String getAccount() {
+		return account;
+	}
+	public void setAccount(String account) {
+		this.account = account;
+	}
+	public TypeOperation getOperation() {
+		return operation;
+	}
+	public void setOperation(TypeOperation operation) {
+		this.operation = operation;
+	}
+	public Double getMontant() {
+		return montant;
+	}
+	public void setMontant(Double montant) {
+		this.montant = montant;
+	}
+	public Double getSolde() {
+		return solde;
+	}
+	public void setSolde(Double solde) {
+		this.solde = solde;
+	}
 	
 }

@@ -9,6 +9,8 @@ public class Operations {
 	private Date date;
 	private Double montant;
 	private Double solde;
+	
+	
 	public TypeOperation getOperation() {
 		return operation;
 	}
