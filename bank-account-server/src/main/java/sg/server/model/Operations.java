@@ -6,7 +6,7 @@ import sg.server.type.TypeOperation;
 
 public class Operations {
 	private TypeOperation operation;
-	private Date date;
+	private String date;
 	private Double montant;
 	private Double solde;
 	
@@ -17,10 +17,10 @@ public class Operations {
 	public void setOperation(TypeOperation operation) {
 		this.operation = operation;
 	}
-	public Date getDate() {
+	public String getDate() {
 		return date;
 	}
-	public void setDate(Date date) {
+	public void setDate(String date) {
 		this.date = date;
 	}
 	public Double getMontant() {

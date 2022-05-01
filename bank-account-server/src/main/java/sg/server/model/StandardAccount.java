@@ -1,5 +1,6 @@
 package sg.server.model;
 
+import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -35,7 +36,9 @@ public class StandardAccount implements BankInterface {
 	 * @param montant
 	 */
 	private void setOperation(Double montant,TypeOperation type) {
-		Date instant = Calendar.getInstance().getTime();
+		DateFormat formater = DateFormat.getDateTimeInstance(DateFormat.SHORT,DateFormat.SHORT);
+		
+		String instant = formater.format(new Date());
 		Operations operation = new Operations();
 		operation.setDate(instant);
 		operation.setMontant(montant);
